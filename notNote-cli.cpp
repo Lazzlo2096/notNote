@@ -1,12 +1,13 @@
-//g++ ./sqlTest.cpp -o sqlTest -l sqlite3
+//g++ ./notNote-cli.cpp -o notNote-cli -l sqlite3
 // #include <iostream>
 #include "mySqlLite.h"
 
 int main(int argc, char* argv[]) {
+// or /* char const *argv[] */
 
 	mySqlLite mySqlNotes;
 
-	/* Create SQL statement */
+	// Create SQL statement
 	char *sql = "SELECT _id, CONTENT from NOTE";
 
 
@@ -17,5 +18,6 @@ int main(int argc, char* argv[]) {
 		mySqlNotes.exec(sql, (void*)data);
 	}
 	
+
 	return 0;
 }

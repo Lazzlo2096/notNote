@@ -3,7 +3,7 @@
 	int row = 0;
 
 //теги, по счелчку редактирование (мб новые строки), запись в бд
-
+#define __CALLBACK_WX__
 int callback_wx(void *data, int argc, char **argv, char **azColName){
 
 	// fprintf(stderr, "%s: ", (const char*)data);
@@ -26,7 +26,7 @@ int callback_wx(void *data, int argc, char **argv, char **azColName){
 	return 0;
 }
 
-#include "mySqlLite.h"
+#include "mySqlLite.h" // Почему это находиться после обявления callback_wx ?
 
 MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
@@ -104,7 +104,7 @@ void MyFrame1::openSqliteDB( wxCommandEvent& event ) {
 	
 	char *sql = "SELECT _id, CONTENT from NOTE"; /* Create SQL statement */
 	if( mySqlNotes.open("5b5-auto.db") ){		
-		mySqlNotes.exec(sql, (void*)this);
+		mySqlNotes.exec_wx(sql, (void*)this);
 	}
 
 	// wxLogDebug(wxT("Event handler (MyFrame::qwerty) not implemented yet"));

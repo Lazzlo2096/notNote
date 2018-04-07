@@ -1,0 +1,57 @@
+Как установить sqlite на windows
+
+Установка sqlite3 для виндовс:
+шаг 0:
+скачайте заголовочные файлы из сорца
+а также Precompiled Binaries for Windows
+по ссылке https://www.sqlite.org/download.html
+
+Для того чтобы всё это установить в ваш MinGW нужно:
+
+шаг 1:
+создайте линкующююся библу libsqlite3.a из sqlite3.def с помощью dlltool.exe из MinGW:
+dlltool.exe -d sqlite3.def -l libsqlite3.a
+
+шаг 2:
+заголовочные файлы (sqlite3ext.h - обязательно ли? и sqlite3.h) поместите в папку C:/MinGW/includes
+sqlite3.dll поместите в MinGW/bin (или в папку с проектом)
+а libsqlite3.a в MinGW/lib (или в папку с проектом)
+
+Готово!
+Теперь вы можете линковаться g++ sqlTest.cpp -o bin/sqlTest -l sqlite3
+
+источники:
+http://www.mingw.org/wiki/msvc_and_mingw_dlls
+http://www.mingw.org/wiki/createimportlibraries
+http://www.mingw.org/wiki/dlltool
+
+	Возможные ошибки:
+1) !не забывайте что -l указываеться в конце параметров gcc!
+https://askubuntu.com/questions/194193/why-do-i-get-undefined-reference-errors-when-linking-against-openssl
+А то может возникнуть ошибка gcc link "undefined reference to `symbol`"
+
+2) компилиться, но при выполнении ничего не происходит (printf() не работает)
+и при дебаге даже вообще не запускаеться, говорит вышел не запустившись с ошибкой 0xc000007b
+возможно вы перепутали 64 и 86 версии dll!
+возможно поможет скачивание dll библиотеки другой разрядности
+(см. https://stackoverflow.com/questions/11648621/c-sdl-native-has-exited-with-code-1073741701-0xc000007b
+в частности инструмент http://www.dependencywalker.com/ )
+
+-----------
+
+Другое интересное:
+https://stackoverflow.com/questions/27191258/dll-file-format-not-recognised-when-compiling-c-with-mingw-on-linux-for-windows
+https://forum.qt.io/topic/64607/using-dll-in-qt-project/5
+https://stackoverflow.com/questions/34937504/using-sqlite3-in-a-c-program-simple-setup-issue
+https://stackoverflow.com/questions/3540355/using-sqlite-with-c-on-windows
+https://stackoverflow.com/questions/17968801/is-it-possible-to-link-against-a-windows-dll-lib-file-combination-using-gcc-g
+
+о GCC
+https://www.rapidtables.com/code/linux/gcc.html
+https://cygwin.com/cygwin-ug-net/dll.html
+https://stackoverflow.com/questions/726014/linking-a-shared-library-using-gcc?rq=1
+http://www.mingw.org/wiki/specify_the_libraries_for_the_linker_to_use
+https://forums.ni.com/t5/LabVIEW/create-a-dll-for-windows-with-gcc/td-p/332736
+
+http://gernotklingler.com/blog/creating-using-shared-libraries-different-compilers-different-operating-systems/
+https://www3.ntu.edu.sg/home/ehchua/programming/cpp/gcc_make.html
