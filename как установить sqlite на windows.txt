@@ -1,6 +1,7 @@
-Как установить sqlite на windows
+﻿Как установить sqlite на windows mingw
 
-Установка sqlite3 для виндовс:
+Установка sqlite3 для windows :
+
 шаг 0:
 скачайте заголовочные файлы из сорца
 а также Precompiled Binaries for Windows
@@ -13,12 +14,12 @@
 dlltool.exe -d sqlite3.def -l libsqlite3.a
 
 шаг 2:
-заголовочные файлы (sqlite3ext.h - обязательно ли? и sqlite3.h) поместите в папку C:/MinGW/includes
-sqlite3.dll поместите в MinGW/bin (или в папку с проектом)
-а libsqlite3.a в MinGW/lib (или в папку с проектом)
+a) заголовочные файлы (sqlite3ext.h - обязательно ли? и sqlite3.h) поместите в папку C:/MinGW/includes
+b) sqlite3.dll поместите в MinGW/bin (или в папку с проектом)
+c) libsqlite3.a поместите в MinGW/lib (или в папку с проектом)
 
 Готово!
-Теперь вы можете линковаться g++ sqlTest.cpp -o bin/sqlTest -l sqlite3
+Теперь вы можете линковаться ( make или g++ sqlTest.cpp -o bin/sqlTest -l sqlite3 )
 
 источники:
 http://www.mingw.org/wiki/msvc_and_mingw_dlls

@@ -1,15 +1,24 @@
-.PHONY: all sql run cli
+.PHONY: all run cli
 
-all: bin/notNote
+PROJECT_NAME = notNote
+MKDIR_P = mkdir -p
+BIN_DIR = bin
 
-bin/notNote: notNote.cpp notNoteForm.cpp
-	g++ notNote.cpp notNoteForm.cpp `wx-config --libs --cxxflags` -l sqlite3 -o bin/notNote
+EXEC_PROG = $(BIN_DIR)/$(PROJECT_NAME)
 
-sql: sqlTest.cpp
-	g++ -g sqlTest.cpp -o bin/sqlTest -l sqlite3
+all: cli
 
-run:
-	bin/notNote
+$(BIN_DIR):
+	$(MKDIR_P) $(BIN_DIR)
 
-cli: notNote-cli.cpp
-	g++ notNote-cli.cpp -o bin/notNote-cli -l sqlite3
+$(EXEC_PROG): notNote.cpp notNoteForm.cpp $(BIN_DIR)
+	g++ notNote.cpp notNoteForm.cpp `wx-config --libs --cxxflags` -l sqlite3 -o $(EXEC_PROG)
+
+sqlTest: sqlTest.cpp $(BIN_DIR)
+	g++ -g sqlTest.cpp -o $(BIN_DIR)/sqlTest -l sqlite3
+
+run: $(EXEC_PROG)
+	$(EXEC_PROG)
+
+cli: notNote-cli.cpp ClassSqlite3.cpp
+	g++ notNote-cli.cpp ClassSqlite3.cpp -o $(BIN_DIR)/notNote-cli -l sqlite3
